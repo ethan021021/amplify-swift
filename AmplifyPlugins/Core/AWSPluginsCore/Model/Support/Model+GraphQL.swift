@@ -174,12 +174,18 @@ extension Model {
         var values = getModelIdentifierValues(from: value, modelSchema: associateModelSchema)
 
         if fieldNames.count != values.count {
-            if field.isAssociationOwner && fieldNames.count > 1 && values.compactMap({$0}).count == 1 {
-                values = String(describing: values.first!!).split(separator: "#").map {
-                    $0.trimmingCharacters(in: CharacterSet(charactersIn: "\""))
+            let defaultValues = [Persistable?](repeating: nil, count: fieldNames.count)
+            if field.isAssociationOwner && fieldNames.count > 1 && values.count == 1 {
+                let discreteKeys = values.compactMap { persistable in
+                    persistable.map({ String(describing: $0) })
+                        .map({ $0.split(separator: ModelIdentifierFormat.Custom.separator.first!) })
+                        .map({ $0.map({
+                            $0.trimmingCharacters(in: CharacterSet(charactersIn: "\""))}) as? Persistable
+                        })
                 }
+                values = discreteKeys.count == values.count ? discreteKeys : defaultValues
             } else {
-                values = [Persistable?](repeating: nil, count: fieldNames.count)
+                values = defaultValues
             }
         }
 

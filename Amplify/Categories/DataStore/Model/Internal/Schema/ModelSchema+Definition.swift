@@ -253,6 +253,19 @@ public enum ModelFieldDefinition {
                       association: .hasMany(associatedWith: associatedKeys.first ?? nil, associatedFields: associatedKeys))
     }
 
+    public static func hasMany(_ key: CodingKey,
+                               is nullability: ModelFieldNullability = .required,
+                               isReadOnly: Bool = false,
+                               ofType type: Model.Type,
+                               associatedFields associatedKeys: [CodingKey]) -> ModelFieldDefinition {
+        return .field(key,
+                      is: nullability,
+                      isReadOnly: isReadOnly,
+                      ofType: .collection(of: type),
+                      association: .hasMany(associatedWith: associatedKeys.first,
+                                            associatedFields: associatedKeys))
+    }
+
     public static func hasOne(_ key: CodingKey,
                               is nullability: ModelFieldNullability = .required,
                               isReadOnly: Bool = false,
@@ -265,7 +278,22 @@ public enum ModelFieldDefinition {
                       ofType: .model(type: type),
                       association: .hasOne(associatedWith: associatedKey, targetNames: targetName.map { [$0] } ?? []))
     }
-
+    
+    public static func hasOne(_ key: CodingKey,
+                              is nullability: ModelFieldNullability = .required,
+                              isReadOnly: Bool = false,
+                              ofType type: Model.Type,
+                              associatedFields associatedKeys: [CodingKey],
+                              targetNames: [String]) -> ModelFieldDefinition {
+        return .field(key,
+                      is: nullability,
+                      isReadOnly: isReadOnly,
+                      ofType: .model(type: type),
+                      association: .hasOne(associatedWith: associatedKeys.first,
+                                           associatedFields: associatedKeys,
+                                           targetNames: targetNames))
+    }
+    
     public static func hasOne(_ key: CodingKey,
                               is nullability: ModelFieldNullability = .required,
                               isReadOnly: Bool = false,

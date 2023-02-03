@@ -88,7 +88,7 @@ import Foundation
 ///   directly by host applications. The behavior of this may change without warning.
 public enum ModelAssociation {
     case hasMany(associatedFieldName: String?, associatedFieldNames: [String] = [])
-    case hasOne(associatedFieldName: String?, targetNames: [String])
+    case hasOne(associatedFieldName: String?, associatedFieldNames: [String] = [], targetNames: [String])
     case belongsTo(associatedFieldName: String?, targetNames: [String])
 
     public static let belongsTo: ModelAssociation = .belongsTo(associatedFieldName: nil, targetNames: [])
@@ -97,19 +97,24 @@ public enum ModelAssociation {
         let targetNames = targetName.map { [$0] } ?? []
         return .belongsTo(associatedFieldName: nil, targetNames: targetNames)
     }
-    
-    public static func hasMany(associatedWith: CodingKey? = nil, associatedFields: [CodingKey] = []) -> ModelAssociation {
+
+    public static func hasMany(associatedWith: CodingKey?, associatedFields: [CodingKey] = []) -> ModelAssociation {
         return .hasMany(associatedFieldName: associatedWith?.stringValue, associatedFieldNames: associatedFields.map { $0.stringValue })
     }
 
-    @available(*, deprecated, message: "Use hasOne(associatedWith:targetNames:)")
-    public static func hasOne(associatedWith: CodingKey?, targetName: String? = nil) -> ModelAssociation {
+    @available(*, deprecated, message: "Use hasOne(associatedWith:associatedFields:targetNames:)")
+    public static func hasOne(associatedWith: CodingKey?,
+                              targetName: String? = nil) -> ModelAssociation {
         let targetNames = targetName.map { [$0] } ?? []
         return .hasOne(associatedWith: associatedWith, targetNames: targetNames)
     }
-
-    public static func hasOne(associatedWith: CodingKey?, targetNames: [String] = []) -> ModelAssociation {
-        return .hasOne(associatedFieldName: associatedWith?.stringValue, targetNames: targetNames)
+    
+    public static func hasOne(associatedWith: CodingKey? = nil,
+                              associatedFields: [CodingKey] = [],
+                              targetNames: [String] = []) -> ModelAssociation {
+        return .hasOne(associatedFieldName: associatedWith?.stringValue,
+                       associatedFieldNames: associatedFields.map { $0.stringValue },
+                       targetNames: targetNames)
     }
 
     @available(*, deprecated, message: "Use belongsTo(associatedWith:targetNames:)")
@@ -248,7 +253,7 @@ extension ModelField {
             let associatedModel = requiredAssociatedModelName
             switch association {
             case .belongsTo(let associatedKey, _),
-                    .hasOne(let associatedKey, _),
+                    .hasOne(let associatedKey, _, _),
                     .hasMany(let associatedKey, _):
                 // TODO handle modelName casing (convert to camelCase)
                 let key = associatedKey ?? associatedModel

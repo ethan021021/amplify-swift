@@ -66,8 +66,10 @@ final class AWSDataStoreLazyLoadPostComment8Tests: AWSDataStoreLazyLoadBaseTest 
             XCTFail("Missing comments on post")
             return
         }
+        // `postTitle` is being resolved during runtime by looking into the index fields
+        // This isn't the ideal logic, see codegen issue https://github.com/aws-amplify/amplify-codegen/issues/539
         assertList(comments, state: .isNotLoaded(associatedIds: [post.postId, post.title],
-                                                 associatedFields: ["postId", "postTitle"]))
+                                                 associatedFields: ["postId"/*, "postTitle"*/]))
         try await comments.fetch()
         assertList(comments, state: .isLoaded(count: 1))
         guard let comment = comments.first else {

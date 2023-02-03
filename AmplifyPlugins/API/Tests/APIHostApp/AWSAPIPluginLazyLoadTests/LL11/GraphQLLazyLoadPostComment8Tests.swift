@@ -60,8 +60,10 @@ final class GraphQLLazyLoadPostComment8Tests: GraphQLLazyLoadBaseTest {
             XCTFail("Missing comments on post")
             return
         }
+        // `postTitle` is being resolved during runtime by looking into the index fields
+        // This isn't the ideal logic, see codegen issue https://github.com/aws-amplify/amplify-codegen/issues/539
         assertList(comments, state: .isNotLoaded(associatedIdentifiers: [post.postId, post.title],
-                                                 associatedFields: ["postId", "postTitle"]))
+                                                 associatedFields: ["postId"/*, "postTitle"*/]))
         try await comments.fetch()
         assertList(comments, state: .isLoaded(count: 1))
         guard let comment = comments.first else {
@@ -85,7 +87,8 @@ final class GraphQLLazyLoadPostComment8Tests: GraphQLLazyLoadBaseTest {
         let queriedPosts = try await listQuery(.list(Post.self, where: Post.keys.postId == post.postId))
         assertList(queriedPosts, state: .isLoaded(count: 1))
         assertList(queriedPosts.first!.comments!,
-                   state: .isNotLoaded(associatedIdentifiers: [post.postId, post.title], associatedFields: ["postId", "postTitle"]))
+                   state: .isNotLoaded(associatedIdentifiers: [post.postId, post.title],
+                                       associatedFields: ["postId"/*, "postTitle"*/]))
         
         let queriedComments = try await listQuery(.list(Comment.self, where: Comment.keys.commentId == comment.commentId))
         assertList(queriedComments, state: .isLoaded(count: 1))

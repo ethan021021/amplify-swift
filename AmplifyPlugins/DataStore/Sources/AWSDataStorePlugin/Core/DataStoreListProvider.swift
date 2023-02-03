@@ -50,7 +50,8 @@ public class DataStoreListProvider<Element: Model>: ModelListProvider {
                 self.log.verbose("Loading List of \(Element.schema.name) by \(associatedField) == \(associatedId) ")
                 predicate = field(associatedField) == associatedId
             } else {
-                let predicateValues = zip(associatedFields, associatedIdentifiers)
+                let predicateValues = resolveAssociatedFieldsAndValues(fields: associatedFields,
+                                                                       values: associatedIdentifiers)
                 var queryPredicates: [QueryPredicateOperation] = []
                 for (identifierName, identifierValue) in predicateValues {
                     queryPredicates.append(QueryPredicateOperation(field: identifierName,
@@ -97,6 +98,31 @@ public class DataStoreListProvider<Element: Model>: ModelListProvider {
         case .loaded(let elements):
             try elements.encode(to: encoder)
         }
+    }
+    
+    // MARK: - Helpers
+    
+    func resolveAssociatedFieldsAndValues(fields associatedFields: [String],
+                                          values associatedIdentifiers: [String]) -> Zip2Sequence<[String], [String]> {
+        if let associatedField = associatedFields.first {
+            // If the number of fields and identifier values do not match, try to resolve the remaining
+            // fields through this schema (the child model)'s indexes. When the parent's primary key is a composite
+            // key, there is a codegen issue where the remaining index of the parent's primary key isn't added. This is
+            // a workaround in place to look for a corresponding set of index fields. Ideally, the codegen model
+            // process adds all the associated fields, but there is a known issue here:
+            // https://github.com/aws-amplify/amplify-codegen/issues/539
+            let resolvedAssociatedFields = Element.schema.indexes.compactMap { modelAttribute in
+                if case .index(let fields, _) = modelAttribute,
+                   fields.contains(where: { $0 == associatedField }) {
+                    return fields
+                } else {
+                    return nil
+                }
+            }.first ?? associatedFields
+            return zip(resolvedAssociatedFields, associatedIdentifiers)
+        }
+        
+        return zip(associatedFields, associatedIdentifiers)
     }
 }
 

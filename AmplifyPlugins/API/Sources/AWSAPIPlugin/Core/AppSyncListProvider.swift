@@ -261,7 +261,21 @@ public class AppSyncListProvider<Element: Model>: ModelListProvider {
             }
             return targetNames
         default:
-            return fields
+            // When the resolved `modelField` is not an reference object (neither `.belongsTo` or `.hasOne` cases above),
+            // then this field is the foreign key field of the parent in uni-directional has-many relationship.
+            // In most cases, it can be used as is when the parent has a single primary key field, but when
+            // when the parent's primary key is a composite key, there is a codegen issue where the remaining index of
+            // the parent's primary key isn't added. This is a workaround in place to look for a corresponding set of
+            // index fields. Ideally, the codegen model process adds all the associated fields, but there is a known
+            // issue here: https://github.com/aws-amplify/amplify-codegen/issues/539
+            return modelSchema.indexes.compactMap { modelAttribute in
+                if case .index(let fields, _) = modelAttribute,
+                   fields.contains(where: { $0 == field }) {
+                    return fields
+                } else {
+                    return nil
+                }
+            }.first ?? fields
         }
     }
     

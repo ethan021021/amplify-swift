@@ -30,6 +30,10 @@ final class InitialSyncOperation: AsynchronousOperation {
         return dataStoreConfiguration.syncPageSize
     }
 
+    private var lastSyncPredicate: String?
+    
+    private var currentSyncPredicate: String?
+    
     private let initialSyncOperationTopic: PassthroughSubject<InitialSyncOperationEvent, DataStoreError>
     var publisher: AnyPublisher<InitialSyncOperationEvent, DataStoreError> {
         return initialSyncOperationTopic.eraseToAnyPublisher()
@@ -50,6 +54,8 @@ final class InitialSyncOperation: AsynchronousOperation {
 
         self.recordsReceived = 0
         self.initialSyncOperationTopic = PassthroughSubject<InitialSyncOperationEvent, DataStoreError>()
+        self.lastSyncPredicate = nil
+        self.currentSyncPredicate = nil
     }
 
     override func main() {
@@ -74,6 +80,7 @@ final class InitialSyncOperation: AsynchronousOperation {
         }
 
         let lastSyncMetadata = getLastSyncMetadata()
+        self.lastSyncPredicate = lastSyncMetadata?.syncPredicate
         guard let lastSync = lastSyncMetadata?.lastSync else {
             return nil
         }
@@ -125,7 +132,14 @@ final class InitialSyncOperation: AsynchronousOperation {
             $0.modelSchema.name == modelSchema.name
         }
         let queryPredicate = syncExpression?.modelPredicate()
-
+        // TODO: what is the correct way to store the predicate?
+        self.currentSyncPredicate = String(describing: queryPredicate)
+        
+        var lastSyncTime = lastSyncTime
+        // Update `lastSyncTime` to perform a full sync if there is a change in sync predicate
+        if InitialSyncOperation.isDifferent(lastSyncPredicate, currentSyncPredicate) {
+            lastSyncTime = nil
+        }
         let completionListener: GraphQLOperation<SyncQueryResult>.ResultListener = { result in
             switch result {
             case .failure(let apiError):
@@ -153,6 +167,15 @@ final class InitialSyncOperation: AsynchronousOperation {
                                   resultListener: completionListener) { nextRequest, wrappedCompletionListener in
             api.query(request: nextRequest, listener: wrappedCompletionListener)
         }.main()
+    }
+    
+    private static func isDifferent(_ lastSyncPredicate: String?, _ currentSyncPredicate: String?) -> Bool {
+        guard let lastSyncPredicate = lastSyncPredicate,
+                let currentSyncPredicate = currentSyncPredicate else {
+            return false
+        }
+        
+        return lastSyncPredicate != currentSyncPredicate
     }
 
     /// Disposes of the query results: Stops if error, reconciles results if success, and kick off a new query if there
@@ -206,7 +229,9 @@ final class InitialSyncOperation: AsynchronousOperation {
             return
         }
 
-        let syncMetadata = ModelSyncMetadata(id: modelSchema.name, lastSync: lastSyncTime)
+        let syncMetadata = ModelSyncMetadata(id: modelSchema.name,
+                                             lastSync: lastSyncTime,
+                                             syncPredicate: currentSyncPredicate)
         storageAdapter.save(syncMetadata, condition: nil, eagerLoad: true) { result in
             switch result {
             case .failure(let dataStoreError):

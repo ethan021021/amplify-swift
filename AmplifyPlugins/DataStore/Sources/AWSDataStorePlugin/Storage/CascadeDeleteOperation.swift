@@ -194,6 +194,11 @@ public class CascadeDeleteOperation<M: Model>: AsynchronousOperation {
             // TODO: Add conveinence to queryPredicate where we have a list of items, to be all or'ed
             var queryPredicates: [QueryPredicateOperation] = []
             for id in chunkedArray {
+                
+                // TODO: Currently, is `associatedField.name` is "id" then the operation ("id" == "id123") is created.
+                // we may want to pass in `modelField.associatedFieldNames` instead.
+                // for has-many, `associatedFields` is the foreign keys on the child.
+                // for has-one, 
                 queryPredicates.append(QueryPredicateOperation(field: associatedField.name, operator: .equals(id)))
             }
             let groupedQueryPredicates = QueryPredicateGroup(type: .or, predicates: queryPredicates)

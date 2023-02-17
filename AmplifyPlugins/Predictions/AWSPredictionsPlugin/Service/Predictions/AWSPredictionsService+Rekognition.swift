@@ -7,13 +7,14 @@
 
 import Amplify
 import AWSRekognition
-import AWSTextract
+//import AWSTextract
 
 typealias DetectModerationLabelsCompletedHandler = AWSTask<AWSRekognitionDetectModerationLabelsResponse>
 
 typealias DetectLabelsCompletedHandler = AWSTask<AWSRekognitionDetectLabelsResponse>
 
 // swiftlint:disable file_length
+@available(iOS 13.0, *)
 extension AWSPredictionsService: AWSRekognitionServiceBehavior {
 
     func detectLabels(image: URL,

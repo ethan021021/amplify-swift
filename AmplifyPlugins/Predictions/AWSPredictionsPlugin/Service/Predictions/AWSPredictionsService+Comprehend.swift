@@ -9,6 +9,7 @@ import Foundation
 import AWSComprehend
 import Amplify
 
+@available(iOS 13.0, *)
 extension AWSPredictionsService: AWSComprehendServiceBehavior {
 
     func comprehend(text: String,

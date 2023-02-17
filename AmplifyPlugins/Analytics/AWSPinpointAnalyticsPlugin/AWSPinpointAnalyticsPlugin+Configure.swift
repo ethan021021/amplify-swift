@@ -6,7 +6,7 @@
 //
 
 import Amplify
-import AWSPinpoint
+//import AWSPinpoint
 import AWSPluginsCore
 import Foundation
 

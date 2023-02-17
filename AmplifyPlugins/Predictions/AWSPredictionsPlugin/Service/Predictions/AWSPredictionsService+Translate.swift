@@ -7,7 +7,9 @@
 
 import Amplify
 import AWSTranslate
+import Foundation
 
+@available(iOS 13.0, *)
 extension AWSPredictionsService: AWSTranslateServiceBehavior {
 
     func translateText(text: String,

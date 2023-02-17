@@ -6,9 +6,16 @@
 //
 
 import Foundation
-import UIKit
 
+#if canImport(UIKit)
+import UIKit
 public typealias AuthUIPresentationAnchor = UIWindow
+#endif
+
+#if canImport(AppKit)
+import AppKit
+public typealias AuthUIPresentationAnchor = NSWindow
+#endif
 
 /// Behavior of the Auth category that clients will use
 public protocol AuthCategoryBehavior: AuthCategoryUserBehavior, AuthCategoryDeviceBehavior {

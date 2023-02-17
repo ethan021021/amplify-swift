@@ -8,8 +8,9 @@
 import Amplify
 import Foundation
 import AWSPluginsCore
-import AWSCore
+//import AWSCore
 
+@available(iOS 13.0, *)
 extension AWSPredictionsPlugin {
 
     /// Configures AWSPredictionsPlugin with the specified configuration.

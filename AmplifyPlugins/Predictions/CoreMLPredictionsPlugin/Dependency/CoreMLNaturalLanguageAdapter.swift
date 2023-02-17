@@ -9,6 +9,7 @@ import Foundation
 import Amplify
 import NaturalLanguage
 
+@available(iOS 13.0, *)
 class CoreMLNaturalLanguageAdapter: CoreMLNaturalLanguageBehavior {
 
     func detectDominantLanguage(for text: String) -> LanguageType? {
@@ -76,6 +77,7 @@ class CoreMLNaturalLanguageAdapter: CoreMLNaturalLanguageBehavior {
     }
 }
 
+@available(iOS 13.0, *)
 extension NLTag {
 
     // swiftlint:disable cyclomatic_complexity
@@ -128,6 +130,7 @@ extension NLTag {
     }
 }
 
+@available(iOS 13.0, *)
 extension NLLanguage {
 
     // swiftlint:disable:next function_body_length cyclomatic_complexity

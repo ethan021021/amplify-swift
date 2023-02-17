@@ -6,7 +6,10 @@
 //
 
 import Foundation
+
+#if canImport(UIKit)
 import UIKit
+#endif
 
 /// Helper class to fetch information for Device Information Screen
 @available(iOS 13.0.0, *)

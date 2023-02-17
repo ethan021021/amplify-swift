@@ -9,6 +9,7 @@ import Foundation
 import Amplify
 import CoreMLPredictionsPlugin
 
+@available(iOS 13.0, *)
 class CoreMLPredictionService: CoreMLPredictionBehavior {
 
     let coreMLPlugin: CoreMLPredictionsPlugin

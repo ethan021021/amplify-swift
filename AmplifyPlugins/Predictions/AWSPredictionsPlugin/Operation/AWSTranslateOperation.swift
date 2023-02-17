@@ -8,6 +8,7 @@
 import Foundation
 import Amplify
 
+@available(iOS 13.0, *)
 public class AWSTranslateOperation: AmplifyOperation<
     PredictionsTranslateTextRequest,
     TranslateTextResult,

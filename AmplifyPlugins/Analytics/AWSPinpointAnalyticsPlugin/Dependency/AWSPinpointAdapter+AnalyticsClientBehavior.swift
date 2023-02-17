@@ -8,6 +8,7 @@
 import AWSPinpoint
 import Foundation
 
+
 extension AWSPinpointAdapter: AWSPinpointAnalyticsClientBehavior {
     func addGlobalAttribute(_ theValue: String, forKey theKey: String) {
         pinpoint.analyticsClient.addGlobalAttribute(theValue, forKey: theKey)

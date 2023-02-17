@@ -7,6 +7,7 @@
 
 import Amplify
 
+@available(iOS 13.0, *)
 class InterpretTextMultiService: MultiServiceBehavior {
 
     typealias Event = PredictionsEvent<InterpretResult, PredictionsError>

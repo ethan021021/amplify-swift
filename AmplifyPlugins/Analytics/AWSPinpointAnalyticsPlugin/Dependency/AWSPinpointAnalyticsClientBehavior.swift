@@ -8,6 +8,7 @@
 import AWSPinpoint
 import Foundation
 
+
 /// Methods copied from `AWSPinpointAnalyticsClient`
 protocol AWSPinpointAnalyticsClientBehavior {
     /**

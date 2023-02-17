@@ -9,6 +9,7 @@ import Foundation
 import Amplify
 import AWSPolly
 
+@available(iOS 13.0, *)
 public class AWSPollyOperation: AmplifyOperation<
     PredictionsTextToSpeechRequest,
     TextToSpeechResult,

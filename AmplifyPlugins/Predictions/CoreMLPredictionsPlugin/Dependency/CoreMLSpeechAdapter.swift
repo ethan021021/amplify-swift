@@ -12,7 +12,9 @@ class CoreMLSpeechAdapter: CoreMLSpeechBehavior {
 
     func getTranscription(_ audioData: URL, callback: @escaping (SpeechToTextResult?) -> Void) {
         let request = SFSpeechURLRecognitionRequest(url: audioData)
-        request.requiresOnDeviceRecognition = true
+        if #available(iOS 13, *) {
+            request.requiresOnDeviceRecognition = true
+        }
         let recognizer = SFSpeechRecognizer()
         recognizer?.recognitionTask(with: request) { result, _ in
             guard let result = result else {

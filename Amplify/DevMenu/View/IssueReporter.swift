@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import UIKit
 
 /// Issue report screen in developer menu
 @available(iOS 13.0, *)

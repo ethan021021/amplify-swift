@@ -7,8 +7,9 @@
 
 import Foundation
 import Amplify
-import AWSPolly
+//import AWSPolly
 
+@available(iOS 13.0, *)
 class TranscribeMultiService: MultiServiceBehavior {
 
     typealias Event = PredictionsEvent<SpeechToTextResult, PredictionsError>

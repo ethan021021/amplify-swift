@@ -29,6 +29,12 @@ let package = Package(
         .library(name: "AWSPinpointAnalyticsPlugin",
                  targets: ["AWSPinpointAnalyticsPlugin"]),
 
+        .library(name: "AWSPredictionsPlugin",
+                 targets: ["AWSPredictionsPlugin"]),
+        
+        .library(name: "CoreMLPredictionsPlugin",
+                 targets: ["CoreMLPredictionsPlugin"]),
+
         .library(name: "AWSS3StoragePlugin",
                  targets: ["AWSS3StoragePlugin"]),
 
@@ -118,6 +124,36 @@ let package = Package(
                 .product(name: "AWSPinpoint", package: "AWSiOSSDKV2")
             ],
             path: "AmplifyPlugins/Analytics/AWSPinpointAnalyticsPlugin",
+            exclude: [
+                "Resources/Info.plist"
+            ]
+        ),
+        .target(
+            name: "AWSPredictionsPlugin",
+            dependencies: [
+                .target(name: "Amplify"),
+                .target(name: "AWSPluginsCore"),
+                .target(name: "CoreMLPredictionsPlugin"),
+                .product(name: "AWSCore", package: "AWSiOSSDKV2"),
+                .product(name: "AWSComprehend", package: "AWSiOSSDKV2"),
+                .product(name: "AWSPolly", package: "AWSiOSSDKV2"),
+                .product(name: "AWSRekognition", package: "AWSiOSSDKV2"),
+                .product(name: "AWSTextract", package: "AWSiOSSDKV2"),
+                .product(name: "AWSTranscribeStreaming", package: "AWSiOSSDKV2"),
+                .product(name: "AWSTranslate", package: "AWSiOSSDKV2")
+            ],
+            path: "AmplifyPlugins/Predictions/AWSPredictionsPlugin",
+            exclude: [
+                "Resources/Info.plist"
+            ]
+        ),
+        .target(
+            name: "CoreMLPredictionsPlugin",
+            dependencies: [
+                .target(name: "Amplify"),
+                .target(name: "AWSPluginsCore"),
+            ],
+            path: "AmplifyPlugins/Predictions/CoreMLPredictionsPlugin",
             exclude: [
                 "Resources/Info.plist"
             ]

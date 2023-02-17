@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 // No-listener versions of the public APIs, to clean call sites that use Combine
 // publishers to get results

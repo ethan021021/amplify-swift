@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 /// Request to initiate sign in using a web UI.
 ///

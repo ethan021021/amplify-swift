@@ -8,6 +8,7 @@
 import Foundation
 import AWSTranscribeStreaming
 
+@available(iOS 13.0, *)
 class NativeWebSocketProvider: NSObject, AWSTranscribeStreamingWebSocketProvider, URLSessionWebSocketDelegate {
 
     // swiftlint:disable weak_delegate

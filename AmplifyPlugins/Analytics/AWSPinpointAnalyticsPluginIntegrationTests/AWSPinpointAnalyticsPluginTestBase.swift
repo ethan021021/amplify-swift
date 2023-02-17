@@ -6,7 +6,7 @@
 //
 
 @testable import Amplify
-import AWSMobileClient
+//import AWSMobileClient
 import AWSPinpointAnalyticsPlugin
 import XCTest
 

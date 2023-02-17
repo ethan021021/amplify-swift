@@ -9,6 +9,7 @@ import Foundation
 import Amplify
 
 /// Predictions plugin that uses CoreML service to get results.
+@available(iOS 13.0, *)
 final public class CoreMLPredictionsPlugin: PredictionsCategoryPlugin {
 
     let coreMLPredictionsPluginKey = "CoreMLPredictionsPlugin"
@@ -31,4 +32,5 @@ final public class CoreMLPredictionsPlugin: PredictionsCategoryPlugin {
     }
 }
 
+@available(iOS 13.0, *)
 extension CoreMLPredictionsPlugin: AmplifyVersionable { }

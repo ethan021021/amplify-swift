@@ -8,6 +8,7 @@
 import Foundation
 import Amplify
 
+@available(iOS 13.0, *)
 class IdentifyMultiService: MultiServiceBehavior {
 
     typealias Event = PredictionsEvent<IdentifyResult, PredictionsError>

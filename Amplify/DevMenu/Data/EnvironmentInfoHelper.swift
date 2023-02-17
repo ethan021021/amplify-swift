@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 /// Helper class to fetch Developer Environment Information
 @available(iOS 13.0.0, *)

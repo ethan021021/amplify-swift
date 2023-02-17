@@ -6,7 +6,10 @@
 //
 
 import Foundation
+
+#if canImport(UIKit)
 import UIKit
+#endif
 
 /// A class for recognizing long press gesture which notifies a `TriggerDelegate` of the event
 @available(iOS 13.0.0, *)

@@ -9,6 +9,7 @@ import Amplify
 import AWSPinpoint
 import Foundation
 
+
 /// Implemented by `AWSPinpointAdapter` as a pass through to the methods on `pinpoint.analyticClient` and
 /// `pinpoint.targetingClient`.
 /// This protocol allows a way to create a Mock and ensure plugin implementation is testable.

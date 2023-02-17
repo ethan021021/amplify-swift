@@ -8,6 +8,7 @@
 import AWSPinpoint
 import Foundation
 
+
 extension AWSPinpointAdapter: AWSPinpointTargetingClientBehavior {
     func currentEndpointProfile() -> AWSPinpointEndpointProfile {
         pinpoint.targetingClient.currentEndpointProfile()

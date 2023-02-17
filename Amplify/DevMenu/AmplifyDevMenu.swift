@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 import SwiftUI
 
 /// Presents a developer menu using the provided `DevMenuPresentationContextProvider`

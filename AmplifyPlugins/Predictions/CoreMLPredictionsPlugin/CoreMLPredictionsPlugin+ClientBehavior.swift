@@ -9,6 +9,7 @@ import Foundation
 import CoreGraphics
 import Amplify
 
+@available(iOS 13.0, *)
 extension CoreMLPredictionsPlugin {
 
     public func convert(

@@ -8,6 +8,7 @@
 import Amplify
 import Vision
 
+@available(iOS 13.0, *)
 class CoreMLVisionAdapter: CoreMLVisionBehavior {
 
     public func detectLabels(_ imageURL: URL) -> IdentifyLabelsResult? {

@@ -10,6 +10,7 @@ import Foundation
 import AWSPluginsCore
 import AWSCore
 
+@available(iOS 13.0, *)
 final public class AWSPredictionsPlugin: PredictionsCategoryPlugin {
 
     let awsPredictionsPluginKey = "awsPredictionsPlugin"
@@ -42,4 +43,5 @@ final public class AWSPredictionsPlugin: PredictionsCategoryPlugin {
     }
 }
 
+@available(iOS 13.0, *)
 extension AWSPredictionsPlugin: AmplifyVersionable { }

@@ -6,7 +6,7 @@
 //
 
 import Amplify
-import AWSTranslate
+//import AWSTranslate
 
 protocol AWSTranslateServiceBehavior {
 

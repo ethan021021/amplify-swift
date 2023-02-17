@@ -6,7 +6,8 @@
 //
 
 import Amplify
-import AWSTranscribeStreaming
+//import AWSTranscribeStreaming
+import Foundation
 
 protocol AWSTranscribeStreamingServiceBehavior {
 

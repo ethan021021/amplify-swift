@@ -7,9 +7,11 @@
 
 import AWSTextract
 import Amplify
+import Foundation
 
 public typealias DetectDocumentTextCompletedHandler = AWSTask<AWSTextractDetectDocumentTextResponse>
 
+@available(iOS 13.0, *)
 extension AWSPredictionsService: AWSTextractServiceBehavior {
     func detectDocumentText(image: Data,
                             onEvent: @escaping TextractServiceEventHandler) -> DetectDocumentTextCompletedHandler {

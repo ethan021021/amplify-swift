@@ -14,6 +14,7 @@ import AWSPolly
 import AWSPluginsCore
 import AWSTranscribeStreaming
 
+@available(iOS 13.0, *)
 class AWSPredictionsService {
 
     var identifier: String!
@@ -194,4 +195,5 @@ class AWSPredictionsService {
     }
 }
 
+@available(iOS 13.0, *)
 extension AWSPredictionsService: DefaultLogger { }

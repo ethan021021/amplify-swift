@@ -7,7 +7,7 @@
 
 import XCTest
 import AmplifyPlugins
-import AWSPinpoint
+//import AWSPinpoint
 
 @testable import Amplify
 @testable import AWSPinpointAnalyticsPlugin

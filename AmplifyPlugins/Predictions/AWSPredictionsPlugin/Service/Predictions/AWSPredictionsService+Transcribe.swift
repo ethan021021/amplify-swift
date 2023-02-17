@@ -7,7 +7,9 @@
 
 import Amplify
 import AWSTranscribeStreaming
+import Foundation
 
+@available(iOS 13.0, *)
 extension AWSPredictionsService: AWSTranscribeStreamingServiceBehavior {
 
     // swiftlint:disable cyclomatic_complexity

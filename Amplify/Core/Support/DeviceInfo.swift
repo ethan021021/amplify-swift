@@ -8,9 +8,11 @@
 import Foundation
 #if canImport(UIKit)
 import UIKit
-#elseif canImport(WatchKit)
+#endif
+#if canImport(WatchKit)
 import WatchKit
-#elseif canImport(IOKit)
+#endif
+#if canImport(IOKit)
 import IOKit
 #endif
 #if canImport(AppKit)
@@ -73,11 +75,15 @@ public struct DeviceInfo {
 
     public var identifierForVendor: UUID? {
     #if canImport(WatchKit)
-        WKInterfaceDevice.current().identifierForVendor
+        if #available(watchOS 16.2, *) {
+            return WKInterfaceDevice.current().identifierForVendor
+        } else {
+            return nil
+        }
     #elseif canImport(UIKit)
-        UIDevice.current.identifierForVendor
+        return UIDevice.current.identifierForVendor
     #else
-        nil
+        return nil
     #endif
     }
 

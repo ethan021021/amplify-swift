@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-#if canImport(AuthenticationServices)
+#if canImport(AuthenticationServices.ASPresentationAnchor)
 import Foundation
 
 /// Request to initiate sign in using a web UI.

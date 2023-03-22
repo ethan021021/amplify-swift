@@ -6,7 +6,7 @@
 //
 
 import Foundation
-#if canImport(AuthenticationServices)
+#if canImport(AuthenticationServices.ASPresentationAnchor)
 import AuthenticationServices
 
 public typealias AuthUIPresentationAnchor = ASPresentationAnchor
@@ -60,7 +60,7 @@ public protocol AuthCategoryBehavior: AuthCategoryUserBehavior, AuthCategoryDevi
                 password: String?,
                 options: AuthSignInRequest.Options?) async throws -> AuthSignInResult
 
-#if canImport(AuthenticationServices)
+#if canImport(AuthenticationServices.ASPresentationAnchor)
     /// SignIn using pre configured web UI.
     ///
     /// Calling this method will always launch the Auth plugin's default web user interface

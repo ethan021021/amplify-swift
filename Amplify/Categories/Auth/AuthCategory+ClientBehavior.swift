@@ -7,6 +7,8 @@
 
 import Foundation
 
+import AuthenticationServices
+
 extension AuthCategory: AuthCategoryBehavior {
 
     public func signUp( username: String, password: String? = nil, options: AuthSignUpRequest.Options? = nil) async throws -> AuthSignUpResult {
@@ -29,7 +31,7 @@ extension AuthCategory: AuthCategoryBehavior {
         return try await plugin.signIn(username: username, password: password, options: options)
     }
 
-#if canImport(AuthenticationServices)
+#if canImport(AuthenticationServices.ASPresentationAnchor)
     public func signInWithWebUI(
         presentationAnchor: AuthUIPresentationAnchor? = nil,
         options: AuthWebUISignInRequest.Options? = nil) async throws -> AuthSignInResult {

@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-#if canImport(AuthenticationServices.ASPresentationAnchor)
+#if canImport(AuthenticationServices) && !os(watchOS)
 import Foundation
 
 /// Request to initiate sign in using a web UI.

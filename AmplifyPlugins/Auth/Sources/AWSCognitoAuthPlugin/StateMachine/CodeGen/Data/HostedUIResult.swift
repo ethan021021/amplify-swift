@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+#if canImport(AuthenticationServices) && !os(watchOS)
+
 import Foundation
 
 struct HostedUIResult {
@@ -34,3 +36,5 @@ extension HostedUIResult: CustomDebugStringConvertible {
         debugDictionary.debugDescription
     }
 }
+
+#endif

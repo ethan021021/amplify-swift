@@ -4,6 +4,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
+
+#if canImport(AuthenticationServices) && !os(watchOS)
+
 import Foundation
 import Amplify
 import AWSPluginsCore
@@ -47,3 +50,5 @@ class AWSAuthWebUISignInTask: AuthWebUISignInTask, DefaultLogger {
         }
     }
 }
+
+#endif

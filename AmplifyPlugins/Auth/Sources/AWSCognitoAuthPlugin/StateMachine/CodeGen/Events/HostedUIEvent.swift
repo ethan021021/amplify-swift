@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+#if canImport(AuthenticationServices) && !os(watchOS)
+
 import Foundation
 
 struct HostedUIEvent: StateMachineEvent {
@@ -53,3 +55,5 @@ extension HostedUIEvent.EventType: Equatable {
         }
     }
 }
+
+#endif

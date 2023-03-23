@@ -32,7 +32,7 @@ public extension AuthSignOutRequest {
         /// SignOut the user from all devices. Check the plugin specific definition on what global signOut means.
         public let globalSignOut: Bool
 
-#if canImport(AuthenticationServices.ASPresentationAnchor)
+#if canImport(AuthenticationServices) && !os(watchOS)
         /// Provide a presentation anchor if you have signedIn using `signInWithWebUI`. The signOut webUI will be presented
         /// in the presentation anchor provided.
         public let presentationAnchorForWebUI: AuthUIPresentationAnchor?
@@ -55,7 +55,7 @@ public extension AuthSignOutRequest {
 }
 
 extension AuthSignOutRequest.Options {
-#if canImport(AuthenticationServices.ASPresentationAnchor)
+#if canImport(AuthenticationServices) && !os(watchOS)
     public static func presentationAnchor(_ anchor: AuthUIPresentationAnchor) -> AuthSignOutRequest.Options {
         return AuthSignOutRequest.Options(presentationAnchor: anchor)
     }

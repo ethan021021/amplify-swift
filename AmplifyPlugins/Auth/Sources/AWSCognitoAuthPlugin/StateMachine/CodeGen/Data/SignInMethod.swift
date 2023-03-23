@@ -10,8 +10,9 @@ import Foundation
 enum SignInMethod {
 
     case apiBased(AuthFlowType)
-
+#if canImport(AuthenticationServices) && !os(watchOS)
     case hostedUI(HostedUIOptions)
+#endif
 }
 
 extension SignInMethod: Codable { }

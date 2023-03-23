@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+#if canImport(AuthenticationServices) && !os(watchOS)
+
 import Foundation
 import Amplify
 import AuthenticationServices
@@ -71,3 +73,5 @@ extension HostedUIASWebAuthenticationSession: ASWebAuthenticationPresentationCon
         return webPresentation ?? ASPresentationAnchor()
     }
 }
+
+#endif

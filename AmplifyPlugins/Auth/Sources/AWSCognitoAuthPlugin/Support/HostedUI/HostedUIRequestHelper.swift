@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+#if canImport(AuthenticationServices) && !os(watchOS)
+
 import Foundation
 import CryptoKit
 
@@ -167,3 +169,5 @@ private extension URLRequest {
         setValue("Basic \(value.base64EncodedString())", forHTTPHeaderField: "Authorization")
     }
 }
+
+#endif

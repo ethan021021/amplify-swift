@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+#if canImport(AuthenticationServices) && !os(watchOS)
+
 import Amplify
 import Foundation
 import CryptoKit
@@ -113,3 +115,5 @@ extension FetchHostedUISignInToken: CustomDebugStringConvertible {
         debugDictionary.debugDescription
     }
 }
+
+#endif

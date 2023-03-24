@@ -8,22 +8,24 @@
 import Foundation
 import Network
 
-protocol NetworkMonitor: AnyObject {
+@_spi(NetworkMonitor)
+public protocol NetworkMonitor: AnyObject {
     var isOnline: Bool { get }
     func startMonitoring(using queue: DispatchQueue)
     func stopMonitoring()
 }
 
+@_spi(NetworkMonitor)
 extension NWPathMonitor: NetworkMonitor {
-    var isOnline: Bool {
+    public var isOnline: Bool {
         currentPath.status == .satisfied
     }
     
-    func startMonitoring(using queue: DispatchQueue) {
+    public func startMonitoring(using queue: DispatchQueue) {
         start(queue: queue)
     }
     
-    func stopMonitoring() {
+    public func stopMonitoring() {
         cancel()
     }
 }

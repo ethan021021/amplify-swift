@@ -6,6 +6,7 @@
 //
 
 @testable import AWSPinpointAnalyticsPlugin
+@_spi(NetworkMonitor) import Amplify
 import Foundation
 
 class MockNetworkMonitor: NetworkMonitor {

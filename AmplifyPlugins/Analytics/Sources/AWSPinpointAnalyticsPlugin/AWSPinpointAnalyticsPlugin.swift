@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Amplify
+@_spi(NetworkMonitor) import Amplify
 import AWSPluginsCore
 import Foundation
 @_spi(InternalAWSPinpoint) import InternalAWSPinpoint

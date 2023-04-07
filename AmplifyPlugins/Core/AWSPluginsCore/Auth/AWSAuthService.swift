@@ -145,7 +145,7 @@ public class AWSAuthService: AWSAuthServiceBehavior {
 
             }
         }
-        if semaphore.wait(timeout: .now() + 2) == .timedOut {
+        if semaphore.wait(timeout: .now() + 5) == .timedOut {
             result = .failure(.unknown("Request was not completed in 2 seconds"))
         }
         guard let validResult = result else {

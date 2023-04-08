@@ -145,9 +145,7 @@ public class AWSAuthService: AWSAuthServiceBehavior {
 
             }
         }
-        if semaphore.wait(timeout: .now() + 5) == .timedOut {
-            result = .failure(.unknown("Request was not completed in 2 seconds"))
-        }
+        semaphore.wait()
         guard let validResult = result else {
             return .failure(AuthError.unknown("""
             Did not receive a valid response from fetchAuthSession for get token.

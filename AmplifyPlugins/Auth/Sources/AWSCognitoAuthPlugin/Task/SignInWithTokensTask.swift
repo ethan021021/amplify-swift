@@ -37,7 +37,7 @@ public class SignInWithTokensTask: AuthSignInWithTokensTask, DefaultLogger {
         let state = await authStateMachine.currentState
         guard case .configured(let authNState, let authZState) = state  else {
             throw AuthError.invalidState(
-                "Federation could not be completed.",
+                "Sign in with tokens could not be completed.",
                 AuthPluginErrorConstants.invalidStateError, nil)
         }
 
@@ -45,7 +45,7 @@ public class SignInWithTokensTask: AuthSignInWithTokensTask, DefaultLogger {
             return try await startSigningInWithTokens()
         } else {
             throw AuthError.invalidState(
-                "Federation could not be completed.",
+                "Sign in with tokens could not be completed.",
                 AuthPluginErrorConstants.invalidStateError, nil)
         }
     }
@@ -86,7 +86,7 @@ public class SignInWithTokensTask: AuthSignInWithTokensTask, DefaultLogger {
                 continue
             }
         }
-        throw AuthError.unknown("Could not start federation to Identity Pool. The previous federation to identity pool credentials have been retained")
+        throw AuthError.unknown("Could not start sign in with tokens. The previous credentials have been retained")
     }
     
     func sendStartSigningInWithTokensEvent() async {

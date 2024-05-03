@@ -158,22 +158,6 @@ extension AWSCognitoAuthPlugin: AuthCategoryBehavior {
             return try await task.value
         } as! AuthSignInResult
     }
-    
-    public func signInWithTokens(accessToken: String,
-                                 refreshToken: String,
-                                 identityToken: String,
-                                 expiresIn: Int?) async throws -> AuthSignInResult {
-        let request = AuthSignInWithTokensRequest(idToken: identityToken,
-                                                  accessToken: accessToken,
-                                                  refreshToken: refreshToken,
-                                                  expiresIn: expiresIn)
-        let task = SignInWithTokensTask(request,
-                                        authStateMachine: self.authStateMachine,
-                                        taskHelper: AWSAuthTaskHelper(authStateMachine: self.authStateMachine))
-        return try await taskQueue.sync {
-            return try await task.value
-        } as! AuthSignInResult
-    }
 
     public func deleteUser() async throws {
         let task = AWSAuthDeleteUserTask(

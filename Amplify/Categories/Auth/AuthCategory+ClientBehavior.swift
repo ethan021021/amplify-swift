@@ -37,9 +37,9 @@ extension AuthCategory: AuthCategoryBehavior {
     }
     
     public func signInWithTokens(accessToken: String,
-                          refreshToken: String,
-                          identityToken: String,
-                          expiresIn: Int?) async throws -> Bool {
+                                 refreshToken: String,
+                                 identityToken: String,
+                                 expiresIn: Int?) async throws -> AuthSignInResult {
         return try await plugin.signInWithTokens(accessToken: accessToken,
                                                  refreshToken: refreshToken,
                                                  identityToken: identityToken,

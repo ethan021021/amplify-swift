@@ -9,7 +9,7 @@ import Foundation
 import Amplify
 
 protocol AuthSignInWithTokensTask: AmplifyAuthTask where Request == AuthSignInWithTokensRequest,
-                                                               Success == Bool,
+                                                               Success == AuthSignInResult,
                                                                Failure == AuthError {}
 
 public extension HubPayload.EventName.Auth {
@@ -31,7 +31,7 @@ public class SignInWithTokensTask: AuthSignInWithTokensTask, DefaultLogger {
         HubPayload.EventName.Auth.signedInWithTokens
     }
     
-    func execute() async throws -> Bool {
+    func execute() async throws -> AuthSignInResult {
         log.verbose("Starting execution")
         await taskHelper.didStateMachineConfigured()
         let state = await authStateMachine.currentState
@@ -41,13 +41,13 @@ public class SignInWithTokensTask: AuthSignInWithTokensTask, DefaultLogger {
                 AuthPluginErrorConstants.invalidStateError, nil)
         }
 
-//        if isValidAuthNStateToStart(authNState) && isValidAuthZStateToStart(authZState) {
-        return try await startFederatingToIdentityPool()
-//        } else {
-//            throw AuthError.invalidState(
-//                "Federation could not be completed.",
-//                AuthPluginErrorConstants.invalidStateError, nil)
-//        }
+        if isValidAuthNStateToStart(authNState) && isValidAuthZStateToStart(authZState) {
+            return try await startSigningInWithTokens()
+        } else {
+            throw AuthError.invalidState(
+                "Federation could not be completed.",
+                AuthPluginErrorConstants.invalidStateError, nil)
+        }
     }
     
     func isValidAuthNStateToStart(_ authNState: AuthenticationState) -> Bool {
@@ -68,9 +68,8 @@ public class SignInWithTokensTask: AuthSignInWithTokensTask, DefaultLogger {
         }
     }
     
-    func startFederatingToIdentityPool() async throws -> Bool {
-
-        await sendStartFederatingToIdentityPoolEvent()
+    func startSigningInWithTokens() async throws -> AuthSignInResult {
+        await sendStartSigningInWithTokensEvent()
         let stateSequences = await authStateMachine.listen()
         log.verbose("Waiting for sign in with tokens to complete")
         for await state in stateSequences {
@@ -82,7 +81,7 @@ public class SignInWithTokensTask: AuthSignInWithTokensTask, DefaultLogger {
 
             switch (authNState, authZState) {
             case (.signedInWithTokens(_), .sessionEstablished(let credentials)):
-                return try getFederatedResult(credentials)
+                return try getSignInWithTokensResult(credentials)
             case (.error, .error(let authZError)):
                 throw authZError.authError
             default:
@@ -92,10 +91,7 @@ public class SignInWithTokensTask: AuthSignInWithTokensTask, DefaultLogger {
         throw AuthError.unknown("Could not start federation to Identity Pool. The previous federation to identity pool credentials have been retained")
     }
     
-    func sendStartFederatingToIdentityPoolEvent() async {
-//        let federatedToken = FederatedToken(token: request.token, provider: request.provider)
-//        let identityId = request.options.developerProvidedIdentityID
-//        let event = AuthorizationEvent.init(eventType: .startSignInWithTokens)
+    func sendStartSigningInWithTokensEvent() async {
         let userPoolTokens = AWSCognitoUserPoolTokens(idToken: request.idToken,
                                                       accessToken: request.accessToken,
                                                       refreshToken: request.refreshToken,
@@ -108,15 +104,13 @@ public class SignInWithTokensTask: AuthSignInWithTokensTask, DefaultLogger {
         await authStateMachine.send(event)
     }
     
-    private func getFederatedResult(_ result: AmplifyCredentials)
-    throws -> Bool {
-
-//        switch result {
-////        case .identityPoolWithFederation(_, let identityId, let awsCredentials):
-//        case .userPoolOnly(let signedInData):
-            return true
-//        default:
-//            throw AuthError.unknown("Unable to parse credentials to expected output", nil)
-//        }
+    private func getSignInWithTokensResult(_ result: AmplifyCredentials)
+    throws -> AuthSignInResult {
+        switch result {
+        case .userPoolAndIdentityPool(_, _, _):
+            return AuthSignInResult(nextStep: .done)
+        default:
+            throw AuthError.unknown("Unable to parse credentials to expected output", nil)
+        }
     }
 }

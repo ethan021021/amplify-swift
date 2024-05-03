@@ -162,7 +162,7 @@ extension AWSCognitoAuthPlugin: AuthCategoryBehavior {
     public func signInWithTokens(accessToken: String,
                                  refreshToken: String,
                                  identityToken: String,
-                                 expiresIn: Int?) async throws -> Bool {
+                                 expiresIn: Int?) async throws -> AuthSignInResult {
         let request = AuthSignInWithTokensRequest(idToken: identityToken,
                                                   accessToken: accessToken,
                                                   refreshToken: refreshToken,
@@ -172,7 +172,7 @@ extension AWSCognitoAuthPlugin: AuthCategoryBehavior {
                                         taskHelper: AWSAuthTaskHelper(authStateMachine: self.authStateMachine))
         return try await taskQueue.sync {
             return try await task.value
-        } as! Bool
+        } as! AuthSignInResult
     }
 
     public func deleteUser() async throws {

@@ -27,6 +27,8 @@ struct AuthenticationEvent: StateMachineEvent {
         /// Emitted after configuration, when the system restores persisted state and
         /// resolves the initial state
         case initializedFederated
+        
+        case initializedSignInWithTokens(SignedInData)
 
         /// Emitted when a user sign in flow completed successfully
         case signInCompleted(SignedInData)
@@ -69,6 +71,8 @@ struct AuthenticationEvent: StateMachineEvent {
             return "AuthenticationEvent.initializedSignedOut"
         case .initializedFederated:
             return "AuthenticationEvent.initializedFederated"
+        case .initializedSignInWithTokens:
+            return "AuthenticationEvent.initializedSignInWithTokens"
         case .signInRequested:
             return "AuthenticationEvent.signInRequested"
         case .signInCompleted:

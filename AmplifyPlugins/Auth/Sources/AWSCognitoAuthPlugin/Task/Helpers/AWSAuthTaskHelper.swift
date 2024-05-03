@@ -104,6 +104,9 @@ class AWSAuthTaskHelper: DefaultLogger {
                 "Call Auth.signIn to sign in a user and then call Auth.getCurrentUser", nil)
         case .error(let authNError):
             throw authNError.authError
+        case let .signedInWithTokens(data):
+            let authUser = AWSAuthUser(username: data.userId, userId: data.userId)
+            return authUser
         default:
             throw AuthError.invalidState("Auth State not in a valid state", AuthPluginErrorConstants.invalidStateError, nil)
         }

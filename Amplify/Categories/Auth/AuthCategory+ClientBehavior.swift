@@ -35,6 +35,16 @@ extension AuthCategory: AuthCategoryBehavior {
                        options: AuthSignInRequest.Options? = nil) async throws -> AuthSignInResult {
         return try await plugin.signIn(username: username, password: password, options: options)
     }
+    
+    public func signInWithTokens(accessToken: String,
+                          refreshToken: String,
+                          identityToken: String,
+                          expiresIn: Int?) async throws -> Bool {
+        return try await plugin.signInWithTokens(accessToken: accessToken,
+                                                 refreshToken: refreshToken,
+                                                 identityToken: identityToken,
+                                                 expiresIn: expiresIn)
+    }
 
 #if os(iOS) || os(macOS)
     public func signInWithWebUI(

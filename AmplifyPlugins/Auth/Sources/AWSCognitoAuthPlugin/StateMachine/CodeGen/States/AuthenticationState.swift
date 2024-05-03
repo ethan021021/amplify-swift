@@ -23,6 +23,8 @@ enum AuthenticationState: State {
 
     /// System is signed in
     case signedIn(SignedInData)
+    
+    case signedInWithTokens(SignedInData)
 
     /// System is clearing federation to identity pools
     case clearingFederation
@@ -56,6 +58,7 @@ extension AuthenticationState {
         case .federatedToIdentityPool: return "AuthenticationState.federatedToIdentityPool"
         case .deletingUser: return "AuthenticationState.deletingUser"
         case .error: return "AuthenticationState.error"
+        case .signedInWithTokens: return "AuthenticationState.signedInWithTokens"
         }
     }
 }

@@ -30,6 +30,12 @@ extension AuthorizationState {
                     return .init(
                         newState: .fetchingAuthSessionWithUserPool(.notStarted, signedInData),
                         actions: [action])
+                case .initializedSignInWithTokens(let signedInData):
+                    let action = InitializeFetchAuthSessionWithUserPool(
+                        signedInData: signedInData)
+                    return .init(
+                        newState: .fetchingAuthSessionWithUserPool(.notStarted, signedInData),
+                        actions: [action])
                 case .error(let error):
                     return .init(newState: .error(AuthorizationError.service(error: error)))
                 case .cancelSignIn:
@@ -64,6 +70,10 @@ extension AuthorizationState {
                             federatedToken,
                             existingCredentials: .noCredentials),
                         actions: [action])
+                }
+                
+                if case .startSignInWithTokens = event.isAuthorizationEvent {
+                    return .from(oldState)
                 }
 
                 return .from(oldState)

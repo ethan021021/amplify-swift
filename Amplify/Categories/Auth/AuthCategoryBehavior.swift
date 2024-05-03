@@ -65,6 +65,11 @@ public protocol AuthCategoryBehavior: AuthCategoryUserBehavior, AuthCategoryDevi
     func signIn(username: String?,
                 password: String?,
                 options: AuthSignInRequest.Options?) async throws -> AuthSignInResult
+    
+    func signInWithTokens(accessToken: String,
+                          refreshToken: String,
+                          identityToken: String,
+                          expiresIn: Int?) async throws -> Bool
 
 #if os(iOS) || os(macOS)
     /// SignIn using pre configured web UI.

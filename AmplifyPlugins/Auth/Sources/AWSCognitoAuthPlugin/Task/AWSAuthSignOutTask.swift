@@ -49,7 +49,7 @@ class AWSAuthSignOutTask: AuthSignOutTask, DefaultLogger {
 
     func isValidAuthNStateToStart(_ authNState: AuthenticationState) -> Bool {
         switch authNState {
-        case .signedIn, .signedOut:
+        case .signedIn, .signedOut, .signedInWithTokens(_):
             return true
         default:
             return false

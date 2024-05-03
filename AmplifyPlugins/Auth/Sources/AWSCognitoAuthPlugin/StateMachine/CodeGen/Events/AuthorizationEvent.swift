@@ -13,6 +13,8 @@ struct AuthorizationEvent: StateMachineEvent {
         case configure
 
         case startFederationToIdentityPool(FederatedToken, IdentityID?)
+        
+        case startSignInWithTokens
 
         case fetchUnAuthSession
 
@@ -48,6 +50,7 @@ struct AuthorizationEvent: StateMachineEvent {
         case .refreshSession:  return "AuthorizationEvent.refreshSession"
         case .sessionEstablished:  return "AuthorizationEvent.sessionEstablished"
         case .receivedSessionError:  return "AuthorizationEvent.receivedSessionError"
+        case .startSignInWithTokens: return "AuthorizationEvent.startSignInWithTokens"
         }
     }
 

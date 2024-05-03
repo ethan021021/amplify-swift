@@ -76,8 +76,6 @@ public class SignInWithTokensTask: AuthSignInWithTokensTask, DefaultLogger {
             guard  case .configured(let authNState, let authZState) = state else {
                 continue
             }
-            
-            debugPrint("[debug] \(#function) state \(state)")
 
             switch (authNState, authZState) {
             case (.signedInWithTokens(_), .sessionEstablished(let credentials)):
